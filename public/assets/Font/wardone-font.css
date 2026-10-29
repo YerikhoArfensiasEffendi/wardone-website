@@ -1,0 +1,105 @@
+/**
+ * Wardone Display Master Web Font CSS Kit
+ * Authentic Hand-Drawn 3D Display Font
+ * Formats: WOFF2, WOFF, TrueType (TTF)
+ */
+
+@font-face {
+  font-family: 'Wardone Display';
+  src: url('./Wardone-Display.woff2') format('woff2'),
+       url('./Wardone-Display.woff') format('woff'),
+       url('./Wardone-Display.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base Typography Class */
+.wardone {
+  font-family: 'Wardone Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 1. Authentic 3D Specimen Style (Persis seperti Specimen Asli) */
+.wardone-3d {
+  font-family: 'Wardone Display', sans-serif;
+  color: #232d3f;
+  letter-spacing: 1.5px;
+  text-shadow:
+    /* Layer 1: Crisp Ice-Cyan Highlight Rim */
+    -1.5px -1.5px 0 #e6f7fc,
+     1.5px -1.5px 0 #e6f7fc,
+    -1.5px  1.5px 0 #a2def2,
+     1.5px  1.5px 0 #a2def2,
+     0px    2.5px 0 #6bbdd8,
+    /* Layer 2: Isometric 3D Extruded Depth */
+     2px  3.5px 0 #2e4d61,
+     3px  5.5px 0 #1f3543,
+     4px  7.5px 0 #16252f,
+     5px  9.5px 0 #0d161d,
+    /* Layer 3: Ambient Drop Shadow */
+     6px 13px 20px rgba(10, 25, 41, 0.40);
+  transition: transform 0.15s ease, text-shadow 0.15s ease;
+}
+
+.wardone-3d:hover {
+  transform: translateY(-2px);
+  text-shadow:
+    -1.5px -1.5px 0 #e6f7fc,
+     1.5px -1.5px 0 #e6f7fc,
+    -1.5px  1.5px 0 #a2def2,
+     1.5px  1.5px 0 #a2def2,
+     0px    2.5px 0 #6bbdd8,
+     2px  4.5px 0 #2e4d61,
+     4px  7.5px 0 #1f3543,
+     5px 10.5px 0 #16252f,
+     6px 13.5px 0 #0d161d,
+     8px 18px 26px rgba(10, 25, 41, 0.50);
+}
+
+/* 2. Celestial Royal Gold Theme */
+.wardone-gold {
+  font-family: 'Wardone Display', sans-serif;
+  color: #fce79a;
+  letter-spacing: 1.5px;
+  text-shadow:
+    -1.5px -1.5px 0 #fffef0,
+     1.5px -1.5px 0 #fffef0,
+     0px    2.5px 0 #eab308,
+     2px    4px   0 #ca8a04,
+     3px    6px   0 #854d0e,
+     4px    8px   0 #451a03,
+     6px   12px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* 3. Pop Sticker Style (White Outline + Shadow) */
+.wardone-sticker {
+  font-family: 'Wardone Display', sans-serif;
+  color: #0284c7;
+  letter-spacing: 1.5px;
+  text-shadow:
+    -3px -3px 0 #ffffff,
+     3px -3px 0 #ffffff,
+    -3px  3px 0 #ffffff,
+     3px  3px 0 #ffffff,
+    -3px  0px 0 #ffffff,
+     3px  0px 0 #ffffff,
+     0px -3px 0 #ffffff,
+     0px  3px 0 #ffffff,
+     4px  6px 0 rgba(15, 23, 42, 0.25);
+}
+
+/* 4. Cyber Glow Cyan Neon */
+.wardone-neon {
+  font-family: 'Wardone Display', sans-serif;
+  color: #38bdf8;
+  letter-spacing: 2px;
+  text-shadow:
+     0 0  5px #38bdf8,
+     0 0 10px #0284c7,
+     0 0 20px #0369a1,
+     0 0 40px #0c4a6e;
+}

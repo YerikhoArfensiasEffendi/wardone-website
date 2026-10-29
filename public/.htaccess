@@ -1,0 +1,61 @@
+# ═════════════════════════════════════════════════════════════════
+# WARDONE Basecamp — Hostinger LiteSpeed Configuration (.htaccess)
+# ═════════════════════════════════════════════════════════════════
+
+# 1. MIME Types for Modern 3D WebGL, Audio, Fonts & Images
+<IfModule mod_mime.c>
+  AddType text/html;charset=utf-8 .html
+  AddType text/plain;charset=utf-8 .txt
+  AddType application/xml;charset=utf-8 .xml
+  AddType text/css;charset=utf-8 .css
+  AddType application/javascript;charset=utf-8 .js .mjs
+  AddType application/json;charset=utf-8 .json
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType model/gltf-binary .glb
+  AddType model/gltf+json .gltf
+  AddType application/octet-stream .drc .hdr .exr
+  AddType image/ktx2 .ktx2
+  AddType application/wasm .wasm
+  AddType font/woff .woff
+  AddType font/woff2 .woff2
+  AddType font/ttf .ttf
+  AddType font/otf .otf
+  AddType audio/ogg .ogg
+  AddType audio/mpeg .mp3
+</IfModule>
+
+# 2. CORS Headers for WebGL, Audio & Font Assets
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+  Header set Access-Control-Allow-Headers "*"
+  Header set Accept-Ranges "bytes"
+
+  # HTML: Always revalidate
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </FilesMatch>
+
+  # Static Assets (Images, 3D Models, Audio, Fonts, JS, CSS)
+  <FilesMatch "\.(js|mjs|css|webp|png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|glb|gltf|drc|hdr|exr|ktx2|ogg|mp3)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
+  </FilesMatch>
+</IfModule>
+
+# 3. Compression (Gzip / Deflate)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml application/wasm
+</IfModule>
+
+# 4. Disable Directory Browsing
+Options -Indexes
+
+# 5. Security Headers
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

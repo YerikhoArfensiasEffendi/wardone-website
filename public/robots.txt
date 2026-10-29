@@ -1,0 +1,10 @@
+# ═════════════════════════════════════════════════════════════════
+# WARDONE Basecamp — robots.txt
+# ═════════════════════════════════════════════════════════════════
+
+User-agent: *
+Allow: /
+
+# Fast Discovery for Search Crawlers & Social Bots
+# (Googlebot, Bingbot, Discordbot, Twitterbot, WhatsApp, Telegram, Applebot)
+Sitemap: https://wardone.so791.com/sitemap.xml

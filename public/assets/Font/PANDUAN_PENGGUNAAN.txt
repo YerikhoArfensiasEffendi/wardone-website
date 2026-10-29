@@ -1,0 +1,63 @@
+========================================================================
+WARDONE DISPLAY — MASTER FONT PACKAGE
+Authentic Hand-Drawn 3D Display Font
+========================================================================
+
+Paket font ini berisi seluruh file resmi font "Wardone Display" yang telah
+dikonversi ke format vektor digital berkualitas tinggi, siap dipakai untuk
+desain grafis, aplikasi desktop, maupun website modern.
+
+------------------------------------------------------------------------
+ISI FOLDER INI:
+------------------------------------------------------------------------
+1. Wardone-Display.ttf   : Format TrueType untuk PC/Mac, Figma, Photoshop, Canva.
+2. Wardone-Display.woff2 : Format Web Font modern (sangat ringan, hanya ~7.8 KB).
+3. Wardone-Display.woff  : Format Web Font standar untuk kompatibilitas browser.
+4. wardone-font.css      : File CSS siap pakai (@font-face & style 3D specimen).
+5. index.html            : Tester interaktif offline (cukup double-click untuk membuka).
+6. PANDUAN_PENGGUNAAN.txt: Petunjuk instalasi dan cara penggunaan.
+
+------------------------------------------------------------------------
+CARA INSTALASI DI KOMPUTER / LAPTOP:
+------------------------------------------------------------------------
+* Di Windows:
+  1. Klik kanan pada file "Wardone-Display.ttf".
+  2. Pilih "Install" atau "Install for all users".
+  3. Buka aplikasi desain Anda (Figma, Photoshop, Illustrator, Word).
+  4. Cari nama font: "Wardone Display".
+
+* Di Mac (macOS):
+  1. Double-click file "Wardone-Display.ttf".
+  2. Klik tombol "Install Font" di jendela Font Book.
+  3. Selesai! Font siap digunakan di semua aplikasi Mac.
+
+------------------------------------------------------------------------
+CARA PENGGUNAAN DI WEBSITE:
+------------------------------------------------------------------------
+1. Letakkan folder ini di proyek website Anda.
+2. Panggil file CSS di dalam tag <head>:
+   <link rel="stylesheet" href="./wardone-font.css">
+
+3. Terapkan class pada judul atau teks HTML Anda:
+   <h1 class="wardone wardone-3d">^ HAI! WARDONERS,</h1>
+   <p class="wardone wardone-3d">&gt; GROW TOGETHER &lt;</p>
+
+Pilihan Efek CSS yang Tersedia:
+- .wardone         : Teks flat vektor bersih.
+- .wardone-3d      : Efek 3D Specimen otentik (highlight cyan + extruded drop shadow).
+- .wardone-gold    : Efek tema emas kerajaan (Royal Gold).
+- .wardone-sticker : Efek pop sticker (outline putih + bayangan solid).
+- .wardone-neon    : Efek glow neon cyan menyala.
+
+------------------------------------------------------------------------
+KARAKTER KHUSUS & GLIF:
+------------------------------------------------------------------------
+- Huruf: A - Z (otomatis mendukung huruf kecil a - z).
+- Angka: 0 - 9 (angka '0' dan huruf 'O' memiliki aksen bintang interior).
+- Ikon Mahkota: Ketik karakter caret '^' atau emoji mahkota '👑'.
+- Panah Kecepatan: Ketik '<' dan '>'.
+- Simbol Lengkap: ! ? . , : ; - _ = + ( ) [ ] { } / \ @ # $ % & * " '
+
+========================================================================
+Wardone Studio © 2026. All Rights Reserved.
+========================================================================

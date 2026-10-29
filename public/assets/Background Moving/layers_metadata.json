@@ -1,0 +1,84 @@
+{
+  "canvas": {
+    "width": 1024,
+    "height": 409,
+    "aspect_ratio": "1024:409"
+  },
+  "layers_order_back_to_front": [
+    "06_sky_backdrop.png",
+    "05_cloud_ocean.png",
+    "04_main_palace.png",
+    "03_floating_islands.png",
+    "01_fg_left_terrace.png",
+    "02_fg_right_tower.png",
+    "00_fg_ribbons.png"
+  ],
+  "sprites": {
+    "fg_left_terrace": {
+      "file": "cropped/fg_left_terrace.png",
+      "x": 0,
+      "y": 0,
+      "width": 273,
+      "height": 322,
+      "x_pct": 0.0,
+      "y_pct": 0.0,
+      "width_pct": 26.66,
+      "height_pct": 78.73
+    },
+    "fg_right_tower": {
+      "file": "cropped/fg_right_tower.png",
+      "x": 840,
+      "y": 0,
+      "width": 184,
+      "height": 382,
+      "x_pct": 82.03,
+      "y_pct": 0.0,
+      "width_pct": 17.97,
+      "height_pct": 93.4
+    },
+    "floating_islands": {
+      "file": "cropped/floating_islands.png",
+      "x": 254,
+      "y": 149,
+      "width": 564,
+      "height": 219,
+      "x_pct": 24.8,
+      "y_pct": 36.43,
+      "width_pct": 55.08,
+      "height_pct": 53.55
+    },
+    "main_palace": {
+      "file": "cropped/main_palace.png",
+      "x": 497,
+      "y": 34,
+      "width": 316,
+      "height": 308,
+      "x_pct": 48.54,
+      "y_pct": 8.31,
+      "width_pct": 30.86,
+      "height_pct": 75.31
+    },
+    "fg_ribbons_left": {
+      "file": "cropped/fg_ribbons_left.png",
+      "x": 0,
+      "y": 258,
+      "width": 320,
+      "height": 151,
+      "x_pct": 0.0,
+      "y_pct": 63.08,
+      "width_pct": 31.25,
+      "height_pct": 36.92
+    },
+    "fg_ribbons_right": {
+      "file": "cropped/fg_ribbons_right.png",
+      "x": 719,
+      "y": 278,
+      "width": 305,
+      "height": 131,
+      "x_pct": 70.21,
+      "y_pct": 67.97,
+      "width_pct": 29.79,
+      "height_pct": 32.03
+    }
+  }
+}
