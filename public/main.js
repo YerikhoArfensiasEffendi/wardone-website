@@ -38,65 +38,38 @@ const socialOrbs = document.querySelectorAll('.floating-social-orb');
 const landingHeader = document.querySelector('.landing-header');
 
 // ═════════════════════════════════════════════════════════════════
-// 1. SCROLL ENGINE (DESKTOP LENIS & 100% PURE NATIVE MOBILE COMPOSITOR)
+// 1. LENIS SMOOTH SCROLL ENGINE (PREMIUM FLUID MOMENTUM)
 // ═════════════════════════════════════════════════════════════════
-const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth <= 768 || ('ontouchstart' in window));
+const lenis = new Lenis({
+  autoRaf: true,
+  smoothWheel: true,
+  duration: 1.25,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  orientation: 'vertical',
+  gestureOrientation: 'vertical',
+  wheelMultiplier: 1.0,
+  touchMultiplier: 1.2,
+  infinite: false,
+});
+window.lenis = lenis;
 
-let lenis = null;
-if (!isMobileDevice && typeof Lenis !== 'undefined') {
-  lenis = new Lenis({
-    autoRaf: true,
-    smoothWheel: true,
-    duration: 1.0,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    orientation: 'vertical',
-    wheelMultiplier: 1.0,
-    infinite: false,
-  });
-  window.lenis = lenis;
-  lenis.stop();
-}
-
-window.wardoneScrollTo = (target) => {
-  if (lenis) {
-    lenis.scrollTo(target);
-  } else {
-    window.scrollTo({ top: target, behavior: 'smooth' });
-  }
-};
-
-// Instant Touch & Interaction Safeguard: Interaksi pertama pengguna langsung membuka scroll
-function unlockScrollInstantly() {
-  if (!document.body.classList.contains('can-scroll')) {
-    startSequence();
-  }
-}
-window.addEventListener('touchstart', unlockScrollInstantly, { passive: true, once: true });
-window.addEventListener('pointerdown', unlockScrollInstantly, { passive: true, once: true });
-window.addEventListener('wheel', unlockScrollInstantly, { passive: true, once: true });
+// Kunci scroll selama loading & cinematic entry berlangsung
+lenis.stop();
 
 // ═════════════════════════════════════════════════════════════════
 // 1B. CINEMATIC SCROLL TRANSITION (POV KAMERA MENJAUH & KABUT AWAN)
-// - Passive scroll handler for both mobile native & desktop Lenis
+// - Saat scroll: POV kamera Three.js menjauh dari maskot secara halus & proporsional
+// - Awan menutup dari kanan & kiri seperti kabut tebal menyelimuti hero (volumetrik tanpa potongan)
+// - Saat tiba di Segmen 2: Awan terbuka kembali mengungkap konten komunitas
+// - Buttery smooth via Lenis sub-pixel scroll engine
 // ═════════════════════════════════════════════════════════════════
-function handleScrollTick(scrollY) {
+lenis.on('scroll', (e) => {
+  const scrollY = e.scroll;
   const H = window.innerHeight;
 
-  // Solusi A (Mobile Igloo Architecture): Zero DOM scroll overhead
-  if (isMobileDevice) {
-    if (scrollCue) {
-      scrollCue.style.opacity = Math.max(0, 1 - scrollY / (H * 0.15)).toFixed(3);
-    }
-    if (bannerSegment && !bannerSegment.classList.contains('section-entered')) {
-      bannerSegment.classList.add('section-entered');
-    }
-    return;
-  }
-
-  // Desktop: Cinematic Sticky Scroll Timeline (Awwwards Experience)
   // 1. 3D Camera Pull-Back: Kamera menjauh dari maskot secara halus (fase 0 -> 0.42*H)
   const rawRatio = Math.min(1, Math.max(0, scrollY / (H * 0.42)));
-  const pullBackRatio = Math.sin((rawRatio * Math.PI) / 2);
+  const pullBackRatio = Math.sin((rawRatio * Math.PI) / 2); // Smooth ease-out sine
   setHeroPullBack(pullBackRatio);
 
   // 2. Element Fades: Bubble Hai Wardoners, Social Orbs, Logo, & Scroll Cue (fase 0 -> 0.28*H)
@@ -139,14 +112,18 @@ function handleScrollTick(scrollY) {
   }
 
   // 4. Cinematic Cloud Fog Curtains:
+  //    - Fase 1 (Tutup): Awan menutup dari kiri & kanan seperti kabut (scrollY: 0.32*H -> 0.82*H)
+  //    - Fase 2 (Buka): Awan terbuka kembali mengungkap Segmen 2 (scrollY: 0.82*H -> 1.38*H)
   if (fogCurtain && curtainLeft && curtainRight) {
     if (scrollY < H * 0.30) {
+      // Sebelum kabut masuk: Maskot terlihat jelas saat kamera menjauh
       fogCurtain.classList.remove('is-active');
       curtainLeft.style.transform = 'translate3d(-115%, 0, 0)';
       curtainRight.style.transform = 'translate3d(115%, 0, 0)';
       if (fogBlanket) fogBlanket.style.opacity = '0';
       if (centerMist) centerMist.style.opacity = '0';
     } else if (scrollY >= H * 0.30 && scrollY <= H * 0.82) {
+      // Fase A: Menutup seperti kabut tebal
       fogCurtain.classList.add('is-active');
       const tClose = Math.min(1, Math.max(0, (scrollY - H * 0.32) / (H * 0.50)));
       const easeClose = tClose < 0.5 ? 2 * tClose * tClose : 1 - Math.pow(-2 * tClose + 2, 2) / 2;
@@ -158,6 +135,7 @@ function handleScrollTick(scrollY) {
       if (fogBlanket) fogBlanket.style.opacity = fogAlpha;
       if (centerMist) centerMist.style.opacity = fogAlpha;
     } else if (scrollY > H * 0.82 && scrollY <= H * 1.38) {
+      // Fase B: Terbuka kembali mengungkap Segmen 2
       fogCurtain.classList.add('is-active');
       const tOpen = Math.min(1, Math.max(0, (scrollY - H * 0.82) / (H * 0.56)));
       const easeOpen = tOpen < 0.5 ? 2 * tOpen * tOpen : 1 - Math.pow(-2 * tOpen + 2, 2) / 2;
@@ -173,6 +151,7 @@ function handleScrollTick(scrollY) {
         bannerSegment.classList.add('section-entered');
       }
     } else {
+      // Selesai transisi: Deaktifkan agar Segmen 2 tampil murni tanpa halangan
       fogCurtain.classList.remove('is-active');
       curtainLeft.style.transform = 'translate3d(-115%, 0, 0)';
       curtainRight.style.transform = 'translate3d(115%, 0, 0)';
@@ -188,27 +167,15 @@ function handleScrollTick(scrollY) {
     cloudBridge.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
     cloudBridge.style.opacity = bridgeFade.toFixed(3);
   }
-
-  // 6. Section 2 Board synchronization
-  if (bannerSegment) {
-    if (scrollY >= H * 0.88) {
-      bannerSegment.classList.add('section-entered');
-    } else if (scrollY < H * 0.60 && !isMobileDevice) {
-      bannerSegment.classList.remove('section-entered');
-    }
-  }
-}
-
-if (lenis) {
-  lenis.on('scroll', (e) => handleScrollTick(e.scroll));
-} else {
-  window.addEventListener('scroll', () => handleScrollTick(window.scrollY), { passive: true });
-}
+});
 
 // Klik Scroll Cue meluncur lembut ke Section 2
 if (scrollCue) {
   scrollCue.addEventListener('click', () => {
-    window.wardoneScrollTo(window.innerHeight * 1.25);
+    lenis.scrollTo(window.innerHeight * 1.25, {
+      duration: 1.45,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
   });
 }
 
@@ -229,6 +196,22 @@ if (bannerSegment) {
   }, { threshold: [0, 0.28, 0.5] });
 
   bannerObserver.observe(bannerSegment);
+
+  // Sinkronisasi real-time via Lenis scroll position
+  lenis.on('scroll', (e) => {
+    // Saat scroll masuk ke Section 2 (setelah awan mulai terbuka >= 88% tinggi viewport)
+    if (e.scroll >= window.innerHeight * 0.88) {
+      if (!bannerSegment.classList.contains('section-entered')) {
+        bannerSegment.classList.add('section-entered');
+      }
+    }
+    // Saat kembali ke Section 1 (scroll < 60% tinggi viewport): reset untuk re-trigger
+    else if (e.scroll < window.innerHeight * 0.60) {
+      if (bannerSegment.classList.contains('section-entered')) {
+        bannerSegment.classList.remove('section-entered');
+      }
+    }
+  });
 }
 
 // Interaktif: Klik pull handle papan untuk recoil spring bounce
@@ -266,8 +249,8 @@ if (vibePoints.length > 0) {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-revealed');
-      } else if (!isMobileDevice) {
-        // Desktop only: re-trigger saat scroll kembali ke atas
+      } else {
+        // Jika user scroll kembali ke atas, kembalikan ke state baur (re-trigger)
         const rect = entry.boundingClientRect;
         if (rect.top > window.innerHeight * 0.88) {
           entry.target.classList.remove('is-revealed');
@@ -275,8 +258,8 @@ if (vibePoints.length > 0) {
       }
     });
   }, {
-    rootMargin: '0px 0px -8% 0px',
-    threshold: 0.12
+    rootMargin: '0px 0px -12% 0px',
+    threshold: 0.15
   });
 
   vibePoints.forEach((point) => pointObserver.observe(point));
@@ -290,17 +273,18 @@ if (botSegment) {
   const botObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       setBotInView(entry.isIntersecting);
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.12) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
         botSegment.classList.add('section-entered');
         enterBotMascot();
-      } else if (!entry.isIntersecting && !isMobileDevice) {
+      } else if (!entry.isIntersecting) {
+        // Reset saat scroll jauh keluar agar re-trigger bouncy pop saat kembali
         const rect = entry.boundingClientRect;
         if (rect.top > window.innerHeight * 0.95 || rect.bottom < 0) {
           botSegment.classList.remove('section-entered');
         }
       }
     });
-  }, { threshold: [0, 0.12, 0.4] });
+  }, { threshold: [0, 0.15, 0.4] });
 
   botObserver.observe(botSegment);
 }
@@ -314,7 +298,8 @@ if (bouncyElements.length > 0) {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('bouncy-revealed');
-      } else if (!isMobileDevice) {
+      } else {
+        // Reset saat scroll kembali ke atas untuk re-trigger bouncy
         const rect = entry.boundingClientRect;
         if (rect.top > window.innerHeight * 0.92) {
           entry.target.classList.remove('bouncy-revealed');
@@ -377,7 +362,10 @@ const CRITICAL_IMAGES = [
   './assets/Background%20Moving/webp/02_fg_right_tower.webp?v=4k_clean',
   './assets/images/cloud_left.png?v=4k_clean',
   './assets/images/cloud_right.png?v=4k_clean',
+  './assets/images/cloud_left_feathered.png',
+  './assets/images/cloud_right_feathered.png',
   './assets/images/wardone_logo.png?v=4k_clean',
+  './assets/images/banner_wardone_smooth.gif?v=4k_clean',
   './assets/images/wardone_icon.gif?v=4k_clean',
   './assets/Claim%20Roles/MAskot%20Role%20menunjuk.png',
   './assets/Claim%20Roles/Wardone%20Claim%20Title.png',
@@ -397,71 +385,62 @@ function preloadImage(url) {
   });
 }
 
-let sequenceStarted = false;
 function startSequence() {
-  if (sequenceStarted) return;
-  sequenceStarted = true;
   console.log('[Wardone] All assets preloaded & WebGL warm. Dismissing loader...');
 
   // 1. Loading Screen Fade Out halus
   if (loadingSegment) {
     loadingSegment.classList.add('hidden');
-    setTimeout(() => {
-      loadingSegment.style.display = 'none';
-    }, 400);
   }
 
-  // 2. Buka scroll segera agar layar langsung responsif terhadap sentuhan jari
-  document.body.classList.add('can-scroll');
-  document.documentElement.classList.add('can-scroll');
-  if (lenis) lenis.start();
+  // 2. Transisi Masuk Epic:
+  // Beri jeda 120ms agar loader mulai larut, lalu maskot muncul DARI BAWAH KE TENGAH
+  setTimeout(() => {
+    enterMascot(() => {
+      console.log('[Wardone] Stage 1: Maskot tiba di tengah!');
 
-  if (isMobileDevice) {
-    document.body.classList.add('bg-enter', 'clouds-enter', 'social-enter', 'bubble-enter');
-    if (bannerSegment) bannerSegment.classList.add('section-entered');
-  }
+      // Tahap B: Fade background berubah ke landing (Sky kingdom, palace, islands)
+      document.body.classList.add('bg-enter');
 
-  // 3. Transisi Masuk Epic:
-  enterMascot(() => {
-    console.log('[Wardone] Stage 1: Maskot tiba di tengah!');
+      // Tahap C: Baru cloud nya masuk (+320ms)
+      setTimeout(() => {
+        console.log('[Wardone] Stage 2: Cloud bridge masuk...');
+        document.body.classList.add('clouds-enter');
+      }, 320);
 
-    // Tahap B: Fade background berubah ke landing (Sky kingdom, palace, islands)
-    document.body.classList.add('bg-enter');
+      // Tahap D: Pop bouncy logo TikTok dan Discord (+650ms)
+      setTimeout(() => {
+        console.log('[Wardone] Stage 3: Pop bouncy logo Discord & TikTok...');
+        document.body.classList.add('social-enter');
+      }, 650);
 
-    // Tahap C: Baru cloud nya masuk (+200ms)
-    setTimeout(() => {
-      console.log('[Wardone] Stage 2: Cloud bridge masuk...');
-      document.body.classList.add('clouds-enter');
-    }, 200);
+      // Tahap E: Lalu bubble Hai Wardoners (+1100ms)
+      setTimeout(() => {
+        console.log('[Wardone] Stage 4: Bubble Hai Wardoners meletup...');
+        document.body.classList.add('bubble-enter');
+      }, 1100);
 
-    // Tahap D: Pop bouncy logo TikTok dan Discord (+450ms)
-    setTimeout(() => {
-      console.log('[Wardone] Stage 3: Pop bouncy logo Discord & TikTok...');
-      document.body.classList.add('social-enter');
-    }, 450);
-
-    // Tahap E: Lalu bubble Hai Wardoners (+750ms)
-    setTimeout(() => {
-      console.log('[Wardone] Stage 4: Bubble Hai Wardoners meletup...');
-      document.body.classList.add('bubble-enter');
-    }, 750);
-  });
+      // Tahap F: Setelah seluruh transisi selesai, buka Lenis smooth scroll (+2100ms)
+      setTimeout(() => {
+        console.log('[Wardone] Epic intro selesai. Lenis smooth scroll aktif.');
+        document.body.classList.add('can-scroll');
+        document.documentElement.classList.add('can-scroll');
+        lenis.start();
+      }, 2100);
+    });
+  }, 120);
 }
 
 // Eksekusi loading sejati:
 // 1. 3D Model Draco + HDR Map + WebGL Shader Pre-Compilation
 // 2. Seluruh gambar krusial ter-decode di GPU memory
 // 3. Custom web fonts ready
-// 4. Maximum timeout race (1.8s) agar pengguna mobile tidak pernah tersangkut preloader
+// 4. Minimum 1.0 detik agar animasi GIF loading sempat bernapas secara rapi
 const imagesReady = Promise.all(CRITICAL_IMAGES.map(preloadImage));
 const fontsReady = document.fonts ? document.fonts.ready.catch(() => {}) : Promise.resolve();
-const minDisplayTime = new Promise((resolve) => setTimeout(resolve, 950));
-const maxWaitTimeout = new Promise((resolve) => setTimeout(resolve, 1800));
+const minDisplayTime = new Promise((resolve) => setTimeout(resolve, 1050));
 
-Promise.race([
-  Promise.all([mascotReady, imagesReady, fontsReady, minDisplayTime]),
-  maxWaitTimeout
-])
+Promise.all([mascotReady, imagesReady, fontsReady, minDisplayTime])
   .then(() => {
     startSequence();
   })

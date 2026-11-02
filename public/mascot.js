@@ -12,12 +12,6 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
-import { subscribeGyro } from './gyro.js';
-
-const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth <= 768 || ('ontouchstart' in window));
-const targetDPR = isMobileDevice 
-  ? 1.0 
-  : Math.min(window.devicePixelRatio || 1, 2);
 
 const ENTRY_MS = 1350; // Durasi maskot meluncur naik dari bawah ke tengah (1.35s)
 
@@ -25,21 +19,15 @@ const ENTRY_MS = 1350; // Durasi maskot meluncur naik dari bawah ke tengah (1.35
 // 1. MASKOT UTAMA (SECTION 1 — HERO LANDING)
 // ═════════════════════════════════════════════════════════════════
 const canvas = document.getElementById('webgl-canvas');
-let renderer = null;
-try {
-  renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: !isMobileDevice,
-    powerPreference: isMobileDevice ? 'default' : 'high-performance',
-    precision: isMobileDevice ? 'mediump' : 'highp'
-  });
-  renderer.setPixelRatio(targetDPR);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.88;
-} catch (err) {
-  console.warn('[Wardone] WebGL Hero init fallback:', err);
-}
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  alpha: true,
+  antialias: true,
+  powerPreference: 'high-performance'
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.88;
 
 const scene = new THREE.Scene();
 
@@ -88,38 +76,34 @@ const VIBE_ENTRY_MS = 1000;
 const VIBE_FOV = 35;
 const VIBE_DIST = 4.3;
 
-if (vibeCanvas && !isMobileDevice) {
-  try {
-    vibeRenderer = new THREE.WebGLRenderer({
-      canvas: vibeCanvas,
-      alpha: true,
-      antialias: false,
-      powerPreference: 'high-performance'
-    });
-    vibeRenderer.setPixelRatio(targetDPR);
-    vibeRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    vibeRenderer.toneMappingExposure = 0.90;
+if (vibeCanvas) {
+  vibeRenderer = new THREE.WebGLRenderer({
+    canvas: vibeCanvas,
+    alpha: true,
+    antialias: true,
+    powerPreference: 'high-performance'
+  });
+  vibeRenderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  vibeRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+  vibeRenderer.toneMappingExposure = 0.90;
 
-    vibeScene = new THREE.Scene();
-    vibeCamera = new THREE.PerspectiveCamera(VIBE_FOV, 1, 0.1, 50);
-    vibeCamera.position.set(0, 0, VIBE_DIST);
-    vibeCamera.lookAt(0, 0, 0);
+  vibeScene = new THREE.Scene();
+  vibeCamera = new THREE.PerspectiveCamera(VIBE_FOV, 1, 0.1, 50);
+  vibeCamera.position.set(0, 0, VIBE_DIST);
+  vibeCamera.lookAt(0, 0, 0);
 
-    // Pencahayaan studio Section 2
-    const vAmbient = new THREE.AmbientLight(0xffffff, 0.38);
-    vibeScene.add(vAmbient);
-    const vDir = new THREE.DirectionalLight(0xfffaf0, 0.72);
-    vDir.position.set(2, 4, 3);
-    vibeScene.add(vDir);
-    const vRim = new THREE.DirectionalLight(0xd4e5ff, 0.35);
-    vRim.position.set(-2.5, 2.5, -2);
-    vibeScene.add(vRim);
+  // Pencahayaan studio Section 2
+  const vAmbient = new THREE.AmbientLight(0xffffff, 0.38);
+  vibeScene.add(vAmbient);
+  const vDir = new THREE.DirectionalLight(0xfffaf0, 0.72);
+  vDir.position.set(2, 4, 3);
+  vibeScene.add(vDir);
+  const vRim = new THREE.DirectionalLight(0xd4e5ff, 0.35);
+  vRim.position.set(-2.5, 2.5, -2);
+  vibeScene.add(vRim);
 
-    vibePivot = new THREE.Group();
-    vibeScene.add(vibePivot);
-  } catch (err) {
-    console.warn('[Wardone] Vibe WebGL init fallback:', err);
-  }
+  vibePivot = new THREE.Group();
+  vibeScene.add(vibePivot);
 }
 
 // ═════════════════════════════════════════════════════════════════
@@ -144,38 +128,34 @@ const BOT_ENTRY_MS = 1000;
 const BOT_FOV = 35;
 const BOT_DIST = 4.3;
 
-if (botCanvas && !isMobileDevice) {
-  try {
-    botRenderer = new THREE.WebGLRenderer({
-      canvas: botCanvas,
-      alpha: true,
-      antialias: false,
-      powerPreference: 'high-performance'
-    });
-    botRenderer.setPixelRatio(targetDPR);
-    botRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    botRenderer.toneMappingExposure = 0.90;
+if (botCanvas) {
+  botRenderer = new THREE.WebGLRenderer({
+    canvas: botCanvas,
+    alpha: true,
+    antialias: true,
+    powerPreference: 'high-performance'
+  });
+  botRenderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  botRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+  botRenderer.toneMappingExposure = 0.90;
 
-    botScene = new THREE.Scene();
-    botCamera = new THREE.PerspectiveCamera(BOT_FOV, 1, 0.1, 50);
-    botCamera.position.set(0, 0, BOT_DIST);
-    botCamera.lookAt(0, 0, 0);
+  botScene = new THREE.Scene();
+  botCamera = new THREE.PerspectiveCamera(BOT_FOV, 1, 0.1, 50);
+  botCamera.position.set(0, 0, BOT_DIST);
+  botCamera.lookAt(0, 0, 0);
 
-    // Pencahayaan studio Section 4
-    const bAmbient = new THREE.AmbientLight(0xffffff, 0.38);
-    botScene.add(bAmbient);
-    const bDir = new THREE.DirectionalLight(0xfffaf0, 0.72);
-    bDir.position.set(2, 4, 3);
-    botScene.add(bDir);
-    const bRim = new THREE.DirectionalLight(0xd4e5ff, 0.35);
-    bRim.position.set(-2.5, 2.5, -2);
-    botScene.add(bRim);
+  // Pencahayaan studio Section 4
+  const bAmbient = new THREE.AmbientLight(0xffffff, 0.38);
+  botScene.add(bAmbient);
+  const bDir = new THREE.DirectionalLight(0xfffaf0, 0.72);
+  bDir.position.set(2, 4, 3);
+  botScene.add(bDir);
+  const bRim = new THREE.DirectionalLight(0xd4e5ff, 0.35);
+  bRim.position.set(-2.5, 2.5, -2);
+  botScene.add(bRim);
 
-    botPivot = new THREE.Group();
-    botScene.add(botPivot);
-  } catch (err) {
-    console.warn('[Wardone] Bot WebGL init fallback:', err);
-  }
+  botPivot = new THREE.Group();
+  botScene.add(botPivot);
 }
 
 // Setup DRACO WebAssembly Decoder (standar Igloo Inc)
@@ -197,7 +177,6 @@ const targetMouse = { x: 0, y: 0 };
 const mouse = { x: 0, y: 0 };
 
 function fit() {
-  if (!renderer) return;
   const width = innerWidth;
   const height = innerHeight;
   const aspect = width / height;
@@ -208,15 +187,11 @@ function fit() {
 
   if (modelSize.y > 0) {
     const vh = 2 * Math.tan(THREE.MathUtils.degToRad(CAMERA_FOV / 2)) * CAMERA_DIST;
-    const isMobile = width <= 768;
+    bottomWorldY = TARGET_CAMERA_Y - (vh / 2);
 
-    // Mobile portrait: skala maskot pas & proporsional agar ada ruang lega untuk logo & bubble
-    targetHeight = isMobile ? vh * 0.56 : vh * 0.82;
-    const maxW = isMobile ? (vh * aspect * 0.65) : (vh * aspect * 0.90);
-    const scale = Math.min(targetHeight / modelSize.y, maxW / Math.max(modelSize.x, modelSize.z));
+    targetHeight = vh * 0.82;
+    const scale = Math.min(targetHeight / modelSize.y, (vh * aspect * 0.9) / Math.max(modelSize.x, modelSize.z));
     pivot.scale.setScalar(scale);
-
-    bottomWorldY = isMobile ? TARGET_CAMERA_Y - (vh * 0.49) : TARGET_CAMERA_Y - (vh / 2);
 
     // Jika animasi masuk belum mulai, sembunyikan maskot di bawah layar
     if (entryStart === null) {
@@ -230,11 +205,8 @@ function fit() {
 function fitVibe() {
   if (!vibeRenderer || !vibeCanvas) return;
   const rect = vibeCanvas.parentElement ? vibeCanvas.parentElement.getBoundingClientRect() : null;
-  const isMobile = innerWidth <= 768;
-  const defaultW = isMobile ? 150 : 460;
-  const defaultH = isMobile ? 240 : 520;
-  const w = rect && rect.width > 0 ? rect.width : (vibeCanvas.clientWidth || defaultW);
-  const h = rect && rect.height > 0 ? rect.height : (vibeCanvas.clientHeight || defaultH);
+  const w = rect && rect.width > 0 ? rect.width : (vibeCanvas.clientWidth || 460);
+  const h = rect && rect.height > 0 ? rect.height : (vibeCanvas.clientHeight || 520);
 
   vibeRenderer.setSize(w, h, false);
   vibeCamera.aspect = w / h;
@@ -242,8 +214,9 @@ function fitVibe() {
 
   if (modelSize.y > 0) {
     const vh = 2 * Math.tan(THREE.MathUtils.degToRad(VIBE_FOV / 2)) * VIBE_DIST;
-    const desiredH = vh * (isMobile ? 0.62 : 0.68);
-    vibeBaseScale = Math.min(desiredH / modelSize.y, (vh * (w / h) * 0.75) / Math.max(modelSize.x, modelSize.z));
+    // 68% tinggi frustum: memberikan ruang bernapas leluasa di atas dan bawah (zero clipping)
+    const desiredH = vh * 0.68;
+    vibeBaseScale = Math.min(desiredH / modelSize.y, (vh * (w / h) * 0.72) / Math.max(modelSize.x, modelSize.z));
     vibeBaseY = -(modelSize.y * vibeBaseScale * 0.50);
     if (vibeIsEntered && vibeEntryStart === null && vibePivot) {
       vibePivot.scale.setScalar(vibeBaseScale);
@@ -255,11 +228,8 @@ function fitVibe() {
 function fitBot() {
   if (!botRenderer || !botCanvas) return;
   const rect = botCanvas.parentElement ? botCanvas.parentElement.getBoundingClientRect() : null;
-  const isMobile = innerWidth <= 768;
-  const defaultW = isMobile ? 110 : 440;
-  const defaultH = isMobile ? 170 : 480;
-  const w = rect && rect.width > 0 ? rect.width : (botCanvas.clientWidth || defaultW);
-  const h = rect && rect.height > 0 ? rect.height : (botCanvas.clientHeight || defaultH);
+  const w = rect && rect.width > 0 ? rect.width : (botCanvas.clientWidth || 440);
+  const h = rect && rect.height > 0 ? rect.height : (botCanvas.clientHeight || 480);
 
   botRenderer.setSize(w, h, false);
   botCamera.aspect = w / h;
@@ -267,8 +237,8 @@ function fitBot() {
 
   if (modelSize.y > 0) {
     const vh = 2 * Math.tan(THREE.MathUtils.degToRad(BOT_FOV / 2)) * BOT_DIST;
-    const desiredH = vh * (isMobile ? 0.62 : 0.68);
-    botBaseScale = Math.min(desiredH / modelSize.y, (vh * (w / h) * 0.75) / Math.max(modelSize.x, modelSize.z));
+    const desiredH = vh * 0.68;
+    botBaseScale = Math.min(desiredH / modelSize.y, (vh * (w / h) * 0.72) / Math.max(modelSize.x, modelSize.z));
     botBaseY = -(modelSize.y * botBaseScale * 0.50);
     if (botIsEntered && botEntryStart === null && botPivot) {
       botPivot.scale.setScalar(botBaseScale);
@@ -277,18 +247,10 @@ function fitBot() {
   }
 }
 
-// Mouse movement listener (desktop cursor tracking)
+// Mouse movement listener (responsif dan dinamis global)
 window.addEventListener('pointermove', (e) => {
-  if (e.pointerType === 'mouse') {
-    targetMouse.x = (e.clientX / innerWidth) * 2 - 1;
-    targetMouse.y = -(e.clientY / innerHeight) * 2 + 1;
-  }
-}, { passive: true });
-
-// Gyroscope tilt tracking (mobile/tablet physical orientation)
-subscribeGyro((gx, gy) => {
-  targetMouse.x = gx;
-  targetMouse.y = -gy; // Invert Y so tilting phone back looks up, forward looks down
+  targetMouse.x = (e.clientX / innerWidth) * 2 - 1;
+  targetMouse.y = -(e.clientY / innerHeight) * 2 + 1;
 });
 
 // Cubic Overshoot Spring Ease (Pixar/AAA bouncy character curve)
@@ -298,11 +260,10 @@ function easeOutBack(t) {
   return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
 }
 
-export const mascotReady = renderer ? Promise.all([
+export const mascotReady = Promise.all([
   new HDRLoader().loadAsync('./assets/textures/environment_map.hdr').catch(() => null),
-  gltfLoader.loadAsync('./assets/3d/maskot.draco.glb').catch(() => null)
+  gltfLoader.loadAsync('./assets/3d/maskot.draco.glb')
 ]).then(([env, gltf]) => {
-  if (!gltf) return;
   if (env) {
     env.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = env;
@@ -384,8 +345,7 @@ export const mascotReady = renderer ? Promise.all([
     mouse.y += (targetMouse.y - mouse.y) * 0.065;
 
     // ── RENDER MASKOT SECTION 1 ──
-    const heroMaxScroll = window.innerHeight * (isMobileDevice ? 0.95 : 1.95);
-    if (window.scrollY < heroMaxScroll) {
+    if (window.scrollY < window.innerHeight * 1.95) {
       if (entryStart !== null) {
         const elapsed = performance.now() - entryStart;
         const k = Math.min(elapsed / ENTRY_MS, 1.0);
@@ -442,11 +402,7 @@ export const mascotReady = renderer ? Promise.all([
     }
 
     // ── RENDER MASKOT SECTION 2 (KENAPA HARUS NONGKRONG DI WARDONE?) ──
-    const canRenderVibe = isMobileDevice 
-      ? (vibeInView && window.scrollY >= window.innerHeight * 0.72) 
-      : (vibeInView || vibeEntryStart !== null);
-
-    if (vibeRenderer && vibeScene && vibeCamera && canRenderVibe) {
+    if (vibeRenderer && vibeScene && vibeCamera && (vibeInView || vibeEntryStart !== null)) {
       const time = performance.now() * 0.0015;
 
       // Target mouse gaze yang santai & lembut (tidak terlalu sensitif)
@@ -495,8 +451,7 @@ export const mascotReady = renderer ? Promise.all([
     }
 
     // ── RENDER MASKOT SECTION 4 (DITENAGAI BOT KHUSUS WARDONE) ──
-    const canRenderBot = isMobileDevice ? botInView : (botInView || botEntryStart !== null);
-    if (botRenderer && botScene && botCamera && canRenderBot) {
+    if (botRenderer && botScene && botCamera && (botInView || botEntryStart !== null)) {
       const time = performance.now() * 0.0015;
 
       const targetRotY = mouse.x * 0.16;
@@ -542,7 +497,7 @@ export const mascotReady = renderer ? Promise.all([
       botRenderer.render(botScene, botCamera);
     }
   });
-}) : Promise.resolve();
+});
 
 let currentPullBack = 0;
 let targetPullBack = 0;
@@ -552,10 +507,6 @@ export function setHeroPullBack(ratio) {
 }
 
 export function enterMascot(onComplete) {
-  if (!renderer) {
-    if (onComplete) onComplete();
-    return;
-  }
   entryStart = performance.now();
   onSwoopCompleteCallback = onComplete;
 }

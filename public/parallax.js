@@ -6,8 +6,6 @@
  * - Auto-pauses when scrolled past Section 1 to conserve 100% GPU/CPU.
  */
 
-import { subscribeGyro } from './gyro.js';
-
 export function initParallax() {
   const stage = document.getElementById('parallax-bg-stage');
   if (!stage) return;
@@ -31,28 +29,28 @@ export function initParallax() {
   const MAX_OFFSET_Y = 46;  // px max travel vertically (kedalaman 3D terasa)
 
   function onPointerMove(e) {
-    if (e.pointerType === 'mouse') {
-      targetX = (e.clientX / window.innerWidth) * 2 - 1;
-      targetY = (e.clientY / window.innerHeight) * 2 - 1;
-    }
+    // Normalisasi [-1, 1] dengan 0 tepat di tengah viewport
+    targetX = (e.clientX / window.innerWidth) * 2 - 1;
+    targetY = (e.clientY / window.innerHeight) * 2 - 1;
   }
 
   window.addEventListener('pointermove', onPointerMove, { passive: true });
 
-  // Mobile Gyroscope motion engine
-  const unsubscribeGyro = subscribeGyro((gx, gy) => {
-    targetX = gx;
-    targetY = gy;
-  });
-
-  const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 768 || ('ontouchstart' in window));
-
   // Paus kalkulasi jika Section 1 sudah keluar dari viewport (hemat resource baterai & GPU)
   function checkVisibility() {
-    const cutoff = window.innerHeight * (isMobile ? 0.95 : 1.15);
-    isVisible = window.scrollY < cutoff;
+    isVisible = window.scrollY < window.innerHeight * 1.95;
   }
   window.addEventListener('scroll', checkVisibility, { passive: true });
+
+  // Device orientation fallback untuk mobile/tablet
+  if (window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission !== 'function') {
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma !== null && e.beta !== null) {
+        targetX = Math.max(-1, Math.min(1, e.gamma / 25));
+        targetY = Math.max(-1, Math.min(1, (e.beta - 45) / 25));
+      }
+    }, { passive: true });
+  }
 
   const startTime = performance.now();
 
@@ -62,15 +60,8 @@ export function initParallax() {
     if (!isVisible) return;
 
     // Smooth lerp damping (0.065 per frame)
-    const diffX = targetX - currentX;
-    const diffY = targetY - currentY;
-    currentX += diffX * 0.065;
-    currentY += diffY * 0.065;
-
-    // Mobile: Jika HP diam (perubahan gyro < 0.001), hindari repaint berulang pada DOM
-    if (isMobile && Math.abs(diffX) < 0.0008 && Math.abs(diffY) < 0.0008) {
-      return;
-    }
+    currentX += (targetX - currentX) * 0.065;
+    currentY += (targetY - currentY) * 0.065;
 
     const elapsed = performance.now() - startTime;
 
@@ -135,25 +126,27 @@ export function initRolesParallax() {
   const MAX_OFFSET_Y = 32; // px max travel vertically
 
   function onPointerMove(e) {
-    if (e.pointerType === 'mouse') {
-      targetX = (e.clientX / window.innerWidth) * 2 - 1;
-      targetY = (e.clientY / window.innerHeight) * 2 - 1;
-    }
+    targetX = (e.clientX / window.innerWidth) * 2 - 1;
+    targetY = (e.clientY / window.innerHeight) * 2 - 1;
   }
 
   window.addEventListener('pointermove', onPointerMove, { passive: true });
-
-  // Mobile Gyroscope motion engine for Roles Section
-  const unsubscribeRolesGyro = subscribeGyro((gx, gy) => {
-    targetX = gx;
-    targetY = gy;
-  });
 
   // IntersectionObserver to pause when out of viewport
   const observer = new IntersectionObserver((entries) => {
     isVisible = entries[0].isIntersecting;
   }, { rootMargin: '120px 0px 120px 0px' });
   observer.observe(stage);
+
+  // Device orientation fallback untuk mobile/tablet
+  if (window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission !== 'function') {
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma !== null && e.beta !== null) {
+        targetX = Math.max(-1, Math.min(1, e.gamma / 25));
+        targetY = Math.max(-1, Math.min(1, (e.beta - 45) / 25));
+      }
+    }, { passive: true });
+  }
 
   const startTime = performance.now();
 
