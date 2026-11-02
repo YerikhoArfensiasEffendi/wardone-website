@@ -319,6 +319,60 @@ if (bouncyElements.length > 0) {
 }
 
 // ═════════════════════════════════════════════════════════════════
+// 2E. BASECAMP CREW FLOATING MENU & SPOTLIGHT CONTROLLER
+// ═════════════════════════════════════════════════════════════════
+const crewPills = document.querySelectorAll('.crew-pill-btn');
+const crewCards = document.querySelectorAll('.crew-full-card');
+
+if (crewPills.length > 0 && crewCards.length > 0) {
+  crewPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const targetId = pill.getAttribute('data-crew-target');
+
+      // Update active state di floating menu
+      crewPills.forEach((p) => {
+        p.classList.remove('active');
+        p.setAttribute('aria-selected', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-selected', 'true');
+
+      // Bersihkan spotlight sebelumnya
+      crewCards.forEach((c) => {
+        c.classList.remove('card-spotlight');
+      });
+
+      if (targetId === 'all') {
+        const teamSec = document.getElementById('team-segment');
+        if (teamSec && typeof lenis !== 'undefined') {
+          lenis.scrollTo(teamSec, { offset: -40, duration: 1.1 });
+        } else if (teamSec) {
+          teamSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        const targetCard = document.getElementById(targetId);
+        if (targetCard) {
+          // Scroll halus ke card yang dituju
+          if (typeof lenis !== 'undefined') {
+            lenis.scrollTo(targetCard, { offset: -80, duration: 1.1 });
+          } else {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+
+          // Trigger spotlight pulse highlight
+          targetCard.classList.remove('card-spotlight');
+          void targetCard.offsetWidth; // force reflow
+          targetCard.classList.add('card-spotlight');
+          setTimeout(() => {
+            targetCard.classList.remove('card-spotlight');
+          }, 2400);
+        }
+      }
+    });
+  });
+}
+
+// ═════════════════════════════════════════════════════════════════
 // 3. AUTO WIDGET LIVE DISCORD STATS
 // ═════════════════════════════════════════════════════════════════
 async function updateLiveDiscordStats() {
