@@ -349,9 +349,9 @@ async function updateLiveDiscordStats() {
 updateLiveDiscordStats();
 
 // ═════════════════════════════════════════════════════════════════
-// 4. TRUE ASSET PRELOADER (DECOMPRESS & WARM-UP)
-//    - Preload & dekompresi WebP/PNG secara asinkron di background thread
-//    - WebGL shader & buffer telah di-compile di mascot.js
+// 4. SMART MULTI-STAGE ASSET PRELOADER (DECOMPRESS & WARM-UP)
+//    - Stage 1 (Critical): Only Hero stage WebP + Clouds + Logo (< 2MB)
+//    - Stage 2 (Deferred): Offscreen Section 2/3 assets decode in background
 // ═════════════════════════════════════════════════════════════════
 const CRITICAL_IMAGES = [
   './assets/Background%20Moving/webp/06_sky_backdrop.webp?v=4k_clean',
@@ -365,8 +365,11 @@ const CRITICAL_IMAGES = [
   './assets/images/cloud_left_feathered.png',
   './assets/images/cloud_right_feathered.png',
   './assets/images/wardone_logo.png?v=4k_clean',
-  './assets/images/banner_wardone_smooth.gif?v=4k_clean',
   './assets/images/wardone_icon.gif?v=4k_clean',
+];
+
+const DEFERRED_IMAGES = [
+  './assets/images/banner_wardone_smooth.gif?v=4k_clean',
   './assets/Claim%20Roles/MAskot%20Role%20menunjuk.png',
   './assets/Claim%20Roles/Wardone%20Claim%20Title.png',
   './assets/Claim%20Roles/ICON%20LOGO%20FLOWTING.png',
@@ -385,8 +388,32 @@ function preloadImage(url) {
   });
 }
 
+function preloadDeferredAssets() {
+  const loadDeferred = () => {
+    DEFERRED_IMAGES.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+      if (typeof img.decode === 'function') {
+        img.decode().catch(() => {});
+      }
+    });
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(loadDeferred, { timeout: 3000 });
+  } else {
+    setTimeout(loadDeferred, 1200);
+  }
+}
+
+let sequenceStarted = false;
 function startSequence() {
-  console.log('[Wardone] All assets preloaded & WebGL warm. Dismissing loader...');
+  if (sequenceStarted) return;
+  sequenceStarted = true;
+  console.log('[Wardone] Hero assets ready. Dismissing loader...');
+
+  // Start background streaming of deferred offscreen assets
+  preloadDeferredAssets();
 
   // 1. Loading Screen Fade Out halus
   if (loadingSegment) {
@@ -433,14 +460,19 @@ function startSequence() {
 
 // Eksekusi loading sejati:
 // 1. 3D Model Draco + HDR Map + WebGL Shader Pre-Compilation
-// 2. Seluruh gambar krusial ter-decode di GPU memory
+// 2. Seluruh gambar Hero ter-decode di GPU memory
 // 3. Custom web fonts ready
-// 4. Minimum 1.0 detik agar animasi GIF loading sempat bernapas secara rapi
+// 4. Minimum 1.0 detik agar animasi loading sempat bernapas secara rapi
+// 5. Fail-safe timeout 4.5s agar tidak pernah stuck di loading
 const imagesReady = Promise.all(CRITICAL_IMAGES.map(preloadImage));
 const fontsReady = document.fonts ? document.fonts.ready.catch(() => {}) : Promise.resolve();
 const minDisplayTime = new Promise((resolve) => setTimeout(resolve, 1050));
+const maxWaitTimeout = new Promise((resolve) => setTimeout(resolve, 4500));
 
-Promise.all([mascotReady, imagesReady, fontsReady, minDisplayTime])
+Promise.race([
+  Promise.all([mascotReady, imagesReady, fontsReady, minDisplayTime]),
+  maxWaitTimeout
+])
   .then(() => {
     startSequence();
   })

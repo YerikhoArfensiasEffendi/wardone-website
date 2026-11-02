@@ -143,6 +143,10 @@ html.lenis, html.lenis body {
   height: auto;
   object-fit: contain;
   display: block;
+  border: none;
+  outline: none;
+  background: transparent;
+  pointer-events: none;
 }
 
 /* ═════════════════════════════════════════════════════════════════
@@ -1211,6 +1215,10 @@ html.lenis, html.lenis body {
   filter: blur(14px) brightness(0.96) contrast(1.04);
   transform: scale(1.06); /* Hindari garis putih di tepi blur */
   display: block;
+  border: none;
+  outline: none;
+  background: transparent;
+  pointer-events: none;
 }
 
 .banner-exposure-overlay {

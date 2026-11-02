@@ -340,6 +340,9 @@ export const mascotReady = Promise.all([
 
   // Render Loop 60fps native — buttery smooth & responsive
   renderer.setAnimationLoop(() => {
+    // Zero GPU/CPU burn if tab is hidden in background
+    if (document.hidden) return;
+
     // Lerp mouse damping
     mouse.x += (targetMouse.x - mouse.x) * 0.065;
     mouse.y += (targetMouse.y - mouse.y) * 0.065;

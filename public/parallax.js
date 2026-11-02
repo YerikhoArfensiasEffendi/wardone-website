@@ -57,7 +57,7 @@ export function initParallax() {
   function loop() {
     rafId = requestAnimationFrame(loop);
 
-    if (!isVisible) return;
+    if (!isVisible || document.hidden) return;
 
     // Smooth lerp damping (0.065 per frame)
     currentX += (targetX - currentX) * 0.065;
@@ -153,7 +153,7 @@ export function initRolesParallax() {
   function loop() {
     rafId = requestAnimationFrame(loop);
 
-    if (!isVisible) return;
+    if (!isVisible || document.hidden) return;
 
     // Smooth lerp damping (0.065 per frame)
     currentX += (targetX - currentX) * 0.065;
