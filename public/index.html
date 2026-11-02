@@ -1465,10 +1465,10 @@
 
 
   <!-- ═════════════════════════════════════════════════════════════════
-       SEGMEN 6: CREATOR HUB & TIKTOK LIVE (@wardone791)
-       Igloo-Style Creator Stage — Asymmetric Floating Showcase
+       SEGMEN 6: GALERI KESERUAN MABAR & LIVE STREAM ANNOUNCEMENT
+       Floating Menu, Live Status Broadcast & Mabar Clips Showcase
        ═════════════════════════════════════════════════════════════════ -->
-  <section id="creator-segment" class="content-section segment-creator" aria-label="Creator Hub TikTok Live">
+  <section id="creator-segment" class="content-section segment-creator" aria-label="Galeri Klip Mabar dan TikTok Live">
     <!-- Surface Mist Layer: Kabut Bergerak di Permukaan di Depan Garis Pemisah (Foreground Zero-Cut) -->
     <div class="section-surface-mist" aria-hidden="true">
       <div class="surface-mist-container">
@@ -1498,58 +1498,333 @@
     <img src="./assets/Background Moving/webp/03_floating_islands.webp" alt="" class="ambient-floating-castle castle-islands-team" aria-hidden="true" loading="lazy"/>
 
     <div class="section-container">
-      <div class="igloo-creator-stage bouncy-item">
-        <!-- Corner Live Stream Beacon (Sebelah Kanan Pojok) -->
-        <a href="https://www.tiktok.com/@wardone791" target="_blank" rel="noopener noreferrer" class="creator-corner-beacon" title="Watch TikTok Live @wardone791">
-          <span class="live-beacon-pulse"></span>
-          <span class="live-beacon-title">LIVE STREAM ON AIR</span>
-        </a>
+      <div class="section-header-igloo text-center bouncy-item">
+        <span class="igloo-ambient-glyph" aria-hidden="true">🎬</span>
+        <h2 class="section-title font-wardone">Galeri Mabar &amp; Live Stream</h2>
+        <p class="section-lead">
+          Kumpulan klip momen ngakak, clutch dramatis saat mabar bareng warga, dan status siaran live TikTok resmi WARDONE.
+        </p>
+      </div>
 
-        <div class="creator-narrative">
-          <h2 class="section-title">Basecamp Resmi TikTok @wardone791</h2>
-          <p class="creator-lead">
-            Menjembatani siaran langsung TikTok dengan keseruan nongkrong dan mabar di Discord WARDONE.
-          </p>
+      <!-- ═════════════════════════════════════════════════════════════════
+           FLOATING MENU: GALERI MABAR FILTER
+           ═════════════════════════════════════════════════════════════════ -->
+      <div class="gallery-floating-nav-wrap bouncy-item">
+        <nav class="gallery-floating-nav" aria-label="Menu Filter Galeri Klip">
+          <div class="gallery-nav-tag">
+            <span class="gallery-nav-icon" aria-hidden="true">🎬</span>
+            <span class="gallery-nav-tag-text font-wardone">GALERI MABAR</span>
+          </div>
+          <div class="gallery-nav-divider" aria-hidden="true"></div>
+          <div class="gallery-nav-pills" role="tablist">
+            <button type="button" class="gallery-pill-btn active" data-clip-filter="all" role="tab" aria-selected="true">
+              <span class="gallery-pill-title">Semua Klip</span>
+              <span class="gallery-pill-badge">6</span>
+            </button>
+            <button type="button" class="gallery-pill-btn" data-clip-filter="live" role="tab" aria-selected="false">
+              <span class="gallery-pill-dot dot-live-red" aria-hidden="true"></span>
+              <span class="gallery-pill-title">Live Stream</span>
+            </button>
+            <button type="button" class="gallery-pill-btn" data-clip-filter="clutch" role="tab" aria-selected="false">
+              <span class="gallery-pill-dot dot-clutch-amber" aria-hidden="true"></span>
+              <span class="gallery-pill-title">Clutch Gameplay</span>
+            </button>
+            <button type="button" class="gallery-pill-btn" data-clip-filter="kocak" role="tab" aria-selected="false">
+              <span class="gallery-pill-dot dot-kocak-purple" aria-hidden="true"></span>
+              <span class="gallery-pill-title">Momen Ngakak</span>
+            </button>
+          </div>
+        </nav>
+      </div>
 
-          <div class="creator-action-box">
-            <a href="https://www.tiktok.com/@wardone791" target="_blank" rel="noopener noreferrer" class="cta-btn cta-tiktok-solid">
-              <svg class="cta-icon-tiktok" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <!-- ═════════════════════════════════════════════════════════════════
+           LIVE STREAM ANNOUNCEMENT CARD (ONLINE / OFFLINE STATUS)
+           ═════════════════════════════════════════════════════════════════ -->
+      <div class="live-announcement-card bouncy-item" id="live-broadcast-card">
+        <div class="live-announcement-ambient-glow" aria-hidden="true"></div>
+        <div class="live-announcement-mesh" aria-hidden="true"></div>
+
+        <div class="live-announcement-top-bar">
+          <div class="live-status-indicator-badge">
+            <span class="live-radar-dot"></span>
+            <span class="live-status-label font-wardone">TIKTOK LIVE STREAM ON-AIR</span>
+          </div>
+          <a href="https://www.tiktok.com/@wardone791" target="_blank" rel="noopener noreferrer" class="live-channel-pill font-wardone" title="Buka TikTok @wardone791">
+            <svg class="tiktok-icon-mini" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-1.01-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+            </svg>
+            <span>@wardone791</span>
+          </a>
+        </div>
+
+        <div class="live-announcement-main-content">
+          <div class="live-announcement-text-col">
+            <h3 class="live-broadcast-title font-wardone">Mabar Malam Minggu &amp; Horror Voice Party Bareng Warga Basecamp</h3>
+            <p class="live-broadcast-desc">
+              Siaran live interaktif langsung dari Discord WARDONE ke TikTok. Penonton diajak mabar bareng, join voice lounge, dan merasakan keseruan tongkrongan ramah bebas toxic!
+            </p>
+            <div class="live-meta-badges">
+              <span class="live-meta-item">
+                <span class="live-meta-icon">🎙️</span>
+                <span>Host: <strong>farhan (@yourbabyyy_)</strong></span>
+              </span>
+              <span class="live-meta-item">
+                <span class="live-meta-icon">⏰</span>
+                <span>Jadwal: <strong>Setiap Malam 20:00 WIB - Selesai</strong></span>
+              </span>
+              <span class="live-meta-item">
+                <span class="live-meta-icon">🎮</span>
+                <span>Game: <strong>Valorant • Roblox • MLBB</strong></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="live-announcement-action-col">
+            <a href="https://www.tiktok.com/@wardone791" target="_blank" rel="noopener noreferrer" class="live-action-btn live-btn-tiktok font-wardone">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-1.01-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
               </svg>
-              <span>Follow TikTok @wardone791</span>
-              <span class="cta-arrow" aria-hidden="true">➔</span>
+              <span>Tonton Live di TikTok</span>
+              <span class="live-btn-arrow">➔</span>
+            </a>
+            <a href="https://discord.gg/wardone" target="_blank" rel="noopener noreferrer" class="live-action-btn live-btn-discord font-wardone">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+              </svg>
+              <span>Gabung Voice Room</span>
             </a>
           </div>
         </div>
+      </div>
 
-        <div class="creator-features-flow">
-          <div class="creator-flow-row">
-            <span class="flow-marker">⚡</span>
-            <div class="flow-body">
-              <h4 class="flow-title">Notifikasi Otomatis</h4>
-              <p class="flow-text">Notifikasi langsung muncul di Discord begitu live stream dimulai tanpa ketinggalan momen seru.</p>
+      <!-- ═════════════════════════════════════════════════════════════════
+           6 MABAR CLIPS GRID (INTERACTIVE VIDEO PREVIEWS)
+           ═════════════════════════════════════════════════════════════════ -->
+      <div class="gallery-clips-grid">
+
+        <!-- Clip 1: Clutch Valorant -->
+        <article class="gallery-clip-card clip-cat-clutch bouncy-item" data-category="clutch">
+          <div class="clip-thumb-wrap">
+            <div class="clip-thumb-overlay"></div>
+            <img src="./assets/images/logos/valorant.png" alt="Valorant Clutch" class="clip-game-icon-bg" />
+            <div class="clip-badge-strip">
+              <span class="clip-type-pill pill-clutch font-wardone">🔥 CLUTCH</span>
+              <span class="clip-duration-badge">0:48</span>
+            </div>
+            <button type="button" class="clip-play-btn" aria-label="Putar Preview Klip Valorant" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Clutch 1v4 Anti-Beban di Valorant" data-clip-game="Valorant • Competitive Party">
+              <span class="play-icon-triangle">▶</span>
+            </button>
+          </div>
+          <div class="clip-card-body">
+            <div class="clip-meta-row">
+              <span class="clip-game-tag">Valorant Party</span>
+              <span class="clip-author-tag">Clipped by @lupagua.</span>
+            </div>
+            <h4 class="clip-title font-wardone">Clutch 1v4 Anti-Beban di Valorant</h4>
+            <p class="clip-desc">
+              Sisa 1 orang melawan 4 musuh di bomb site A, ditemani teriakan histeris warga di voice room yang berujung kemenangan epik.
+            </p>
+            <div class="clip-footer-action">
+              <button type="button" class="clip-preview-action-btn font-wardone" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Clutch 1v4 Anti-Beban di Valorant" data-clip-game="Valorant • Competitive Party">
+                <span>Tonton Preview</span>
+                <span class="clip-btn-icon">▶</span>
+              </button>
             </div>
           </div>
+        </article>
 
-          <div class="creator-flow-row">
-            <span class="flow-marker">🎙️</span>
-            <div class="flow-body">
-              <h4 class="flow-title">Mabar On-Stream</h4>
-              <p class="flow-text">Kesempatan mabar on-stream bareng streamer saat sesi live game berlangsung di hadapan ribuan penonton.</p>
+        <!-- Clip 2: Horror Roblox -->
+        <article class="gallery-clip-card clip-cat-kocak bouncy-item" data-category="kocak">
+          <div class="clip-thumb-wrap">
+            <div class="clip-thumb-overlay"></div>
+            <img src="./assets/images/logos/roblox.png" alt="Roblox Horror" class="clip-game-icon-bg" />
+            <div class="clip-badge-strip">
+              <span class="clip-type-pill pill-kocak font-wardone">😂 NGAKAK</span>
+              <span class="clip-duration-badge">1:15</span>
+            </div>
+            <button type="button" class="clip-play-btn" aria-label="Putar Preview Klip Roblox" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Kepanikan Massal di Game Horor Roblox" data-clip-game="Roblox • Horror Escape">
+              <span class="play-icon-triangle">▶</span>
+            </button>
+          </div>
+          <div class="clip-card-body">
+            <div class="clip-meta-row">
+              <span class="clip-game-tag">Roblox Horror</span>
+              <span class="clip-author-tag">Clipped by @jeviaro</span>
+            </div>
+            <h4 class="clip-title font-wardone">Kepanikan Massal di Game Horor Roblox</h4>
+            <p class="clip-desc">
+              Niatnya mau nyelametin temen yang kena culik monster, pas pintunya kebuka malah seisi voice room saling dorong dan teriak bareng.
+            </p>
+            <div class="clip-footer-action">
+              <button type="button" class="clip-preview-action-btn font-wardone" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Kepanikan Massal di Game Horor Roblox" data-clip-game="Roblox • Horror Escape">
+                <span>Tonton Preview</span>
+                <span class="clip-btn-icon">▶</span>
+              </button>
             </div>
           </div>
+        </article>
 
-          <div class="creator-flow-row">
-            <span class="flow-marker">🎬</span>
-            <div class="flow-body">
-              <h4 class="flow-title">Channel #clips &amp; #showcase</h4>
-              <p class="flow-text">Pamer momen terbaik gameplay kamu yang berkesempatan dipilih masuk kompilasi video TikTok resmi.</p>
+        <!-- Clip 3: TikTok Live Sesi Mabar -->
+        <article class="gallery-clip-card clip-cat-live bouncy-item" data-category="live">
+          <div class="clip-thumb-wrap">
+            <div class="clip-thumb-overlay"></div>
+            <img src="./assets/images/team/fhann.png" alt="TikTok Live Mabar" class="clip-game-icon-bg bg-round" />
+            <div class="clip-badge-strip">
+              <span class="clip-type-pill pill-live font-wardone">🎙️ LIVE HIGHLIGHT</span>
+              <span class="clip-duration-badge">1:30</span>
             </div>
+            <button type="button" class="clip-play-btn" aria-label="Putar Preview Klip TikTok Live" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Sesi Mabar TikTok Live Bareng Penonton" data-clip-game="TikTok Live @wardone791">
+              <span class="play-icon-triangle">▶</span>
+            </button>
+          </div>
+          <div class="clip-card-body">
+            <div class="clip-meta-row">
+              <span class="clip-game-tag">TikTok Live</span>
+              <span class="clip-author-tag">Host @yourbabyyy_</span>
+            </div>
+            <h4 class="clip-title font-wardone">Sesi Mabar TikTok Live Bareng Penonton</h4>
+            <p class="clip-desc">
+              Momen seru saat penonton siaran langsung TikTok diajak langsung masuk voice room WARDONE buat mabar dadakan tanpa batasan rank.
+            </p>
+            <div class="clip-footer-action">
+              <button type="button" class="clip-preview-action-btn font-wardone" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Sesi Mabar TikTok Live Bareng Penonton" data-clip-game="TikTok Live @wardone791">
+                <span>Tonton Preview</span>
+                <span class="clip-btn-icon">▶</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Clip 4: MLBB Lord Steal -->
+        <article class="gallery-clip-card clip-cat-clutch bouncy-item" data-category="clutch">
+          <div class="clip-thumb-wrap">
+            <div class="clip-thumb-overlay"></div>
+            <img src="./assets/images/logos/mlbb.png" alt="MLBB Lord Steal" class="clip-game-icon-bg" />
+            <div class="clip-badge-strip">
+              <span class="clip-type-pill pill-clutch font-wardone">🏆 COMEBACK</span>
+              <span class="clip-duration-badge">0:52</span>
+            </div>
+            <button type="button" class="clip-play-btn" aria-label="Putar Preview Klip MLBB" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Comeback Dramatis Lord Steal di MLBB" data-clip-game="Mobile Legends Bang Bang">
+              <span class="play-icon-triangle">▶</span>
+            </button>
+          </div>
+          <div class="clip-card-body">
+            <div class="clip-meta-row">
+              <span class="clip-game-tag">Mobile Legends</span>
+              <span class="clip-author-tag">Clipped by @miracle_warrior</span>
+            </div>
+            <h4 class="clip-title font-wardone">Comeback Dramatis Lord Steal di MLBB</h4>
+            <p class="clip-desc">
+              Base utama tinggal 1 pukulan minion, retribution tepat sasaran mencuri Lord dan membalikkan keadaan jadi kemenangan telak.
+            </p>
+            <div class="clip-footer-action">
+              <button type="button" class="clip-preview-action-btn font-wardone" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Comeback Dramatis Lord Steal di MLBB" data-clip-game="Mobile Legends Bang Bang">
+                <span>Tonton Preview</span>
+                <span class="clip-btn-icon">▶</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Clip 5: CS2 Flashbang Fail -->
+        <article class="gallery-clip-card clip-cat-kocak bouncy-item" data-category="kocak">
+          <div class="clip-thumb-wrap">
+            <div class="clip-thumb-overlay"></div>
+            <img src="./assets/images/logos/cs2.png" alt="CS2 Flashbang Fail" class="clip-game-icon-bg" />
+            <div class="clip-badge-strip">
+              <span class="clip-type-pill pill-kocak font-wardone">💀 FAIL KOCAK</span>
+              <span class="clip-duration-badge">0:39</span>
+            </div>
+            <button type="button" class="clip-play-btn" aria-label="Putar Preview Klip CS2" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Flashbang Nyasar Bikin Buta Satu Skuad" data-clip-game="Counter-Strike 2">
+              <span class="play-icon-triangle">▶</span>
+            </button>
+          </div>
+          <div class="clip-card-body">
+            <div class="clip-meta-row">
+              <span class="clip-game-tag">CS2 Fun Match</span>
+              <span class="clip-author-tag">Clipped by @fhann</span>
+            </div>
+            <h4 class="clip-title font-wardone">Flashbang Nyasar Bikin Buta Satu Skuad</h4>
+            <p class="clip-desc">
+              Niat lempar flashbang buat musuh, malah mantul ke kosen pintu sendiri dan bikin seluruh tim putih layarnya lalu di-rush musuh.
+            </p>
+            <div class="clip-footer-action">
+              <button type="button" class="clip-preview-action-btn font-wardone" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Flashbang Nyasar Bikin Buta Satu Skuad" data-clip-game="Counter-Strike 2">
+                <span>Tonton Preview</span>
+                <span class="clip-btn-icon">▶</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Clip 6: Midnight Chill Voice Lounge -->
+        <article class="gallery-clip-card clip-cat-live bouncy-item" data-category="live">
+          <div class="clip-thumb-wrap">
+            <div class="clip-thumb-overlay"></div>
+            <img src="./assets/images/wardone_icon.gif" alt="Discord Lounge Vibe" class="clip-game-icon-bg bg-round" />
+            <div class="clip-badge-strip">
+              <span class="clip-type-pill pill-live font-wardone">✨ BASECAMP VIBE</span>
+              <span class="clip-duration-badge">1:05</span>
+            </div>
+            <button type="button" class="clip-play-btn" aria-label="Putar Preview Klip Voice Lounge" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Midnight Chill &amp; Karaoke di Voice Lounge" data-clip-game="Discord Basecamp Lounge">
+              <span class="play-icon-triangle">▶</span>
+            </button>
+          </div>
+          <div class="clip-card-body">
+            <div class="clip-meta-row">
+              <span class="clip-game-tag">Voice Lounge</span>
+              <span class="clip-author-tag">Clipped by @wardone_fam</span>
+            </div>
+            <h4 class="clip-title font-wardone">Midnight Chill &amp; Karaoke di Voice Lounge</h4>
+            <p class="clip-desc">
+              Suasana nongkrong larut malam di voice room sambil dengerin musik bareng bot, curhat santai, dan berbagi cerita seru sesama warga.
+            </p>
+            <div class="clip-footer-action">
+              <button type="button" class="clip-preview-action-btn font-wardone" data-clip-video="./assets/images/banner_wardone_smooth.mp4" data-clip-title="Midnight Chill &amp; Karaoke di Voice Lounge" data-clip-game="Discord Basecamp Lounge">
+                <span>Tonton Preview</span>
+                <span class="clip-btn-icon">▶</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         INTERACTIVE CLIP PREVIEW MODAL
+         ═════════════════════════════════════════════════════════════════ -->
+    <div class="clip-preview-modal" id="clip-preview-modal" aria-hidden="true" role="dialog" aria-label="Pemutar Preview Klip Mabar">
+      <div class="clip-modal-backdrop" id="clip-modal-backdrop"></div>
+      <div class="clip-modal-dialog">
+        <div class="clip-modal-header">
+          <div class="clip-modal-title-col">
+            <span class="clip-modal-game-tag" id="modal-clip-game">Valorant • Highlight</span>
+            <h3 class="clip-modal-title font-wardone" id="modal-clip-title">Clutch 1v4 Anti-Beban di Valorant</h3>
+          </div>
+          <button type="button" class="clip-modal-close-btn" id="clip-modal-close" aria-label="Tutup Preview Klip">✕</button>
+        </div>
+        <div class="clip-modal-video-box">
+          <video id="modal-video-player" class="clip-modal-video" src="./assets/images/banner_wardone_smooth.mp4" controls preload="metadata" playsinline loop></video>
+        </div>
+        <div class="clip-modal-footer">
+          <div class="clip-modal-footer-info">
+            <span class="clip-modal-badge font-wardone">🎬 WARDONE OFFICIAL CLIP</span>
+            <span class="clip-modal-sub">Siap mabar bareng kami di room voice selanjutnya?</span>
+          </div>
+          <div class="clip-modal-cta-group">
+            <a href="https://discord.gg/wardone" target="_blank" rel="noopener noreferrer" class="clip-modal-cta-btn btn-modal-discord font-wardone">
+              <span>Join Voice Mabar</span>
+              <span aria-hidden="true">➔</span>
+            </a>
+            <a href="https://www.tiktok.com/@wardone791" target="_blank" rel="noopener noreferrer" class="clip-modal-cta-btn btn-modal-tiktok font-wardone">
+              <span>Buka di TikTok</span>
+              <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
-
 
   </section>
 
@@ -2190,7 +2465,7 @@
             <li><a href="#games-segment">Zona Mabar</a></li>
             <li><a href="#bot-segment">Fitur Bot</a></li>
             <li><a href="#roles-segment">Klaim Role &amp; Level</a></li>
-            <li><a href="#creator-segment">TikTok Live</a></li>
+            <li><a href="#creator-segment">Galeri Klip &amp; Live</a></li>
             <li><a href="#team-segment">Basecamp Crew</a></li>
             <li><a href="#rules-segment">Aturan Server</a></li>
             <li><a href="#faq-segment">FAQ</a></li>

@@ -373,6 +373,104 @@ if (crewPills.length > 0 && crewCards.length > 0) {
 }
 
 // ═════════════════════════════════════════════════════════════════
+// 2F. GALERI MABAR FLOATING FILTER & VIDEO PREVIEW MODAL CONTROLLER
+// ═════════════════════════════════════════════════════════════════
+const galleryPills = document.querySelectorAll('.gallery-pill-btn');
+const clipCards = document.querySelectorAll('.gallery-clip-card');
+const previewModal = document.getElementById('clip-preview-modal');
+const modalBackdrop = document.getElementById('clip-modal-backdrop');
+const modalCloseBtn = document.getElementById('clip-modal-close');
+const modalVideo = document.getElementById('modal-video-player');
+const modalClipTitle = document.getElementById('modal-clip-title');
+const modalClipGame = document.getElementById('modal-clip-game');
+
+// 1. Floating Category Filter Tabs
+if (galleryPills.length > 0 && clipCards.length > 0) {
+  galleryPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const filter = pill.getAttribute('data-clip-filter');
+
+      // Update active state di floating nav
+      galleryPills.forEach((p) => {
+        p.classList.remove('active');
+        p.setAttribute('aria-selected', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-selected', 'true');
+
+      // Filter cards
+      clipCards.forEach((card) => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          card.classList.remove('is-filtered-out');
+        } else {
+          card.classList.add('is-filtered-out');
+        }
+      });
+    });
+  });
+}
+
+// 2. Video Preview Modal Controller
+function openClipModal(videoSrc, title, game) {
+  if (!previewModal) return;
+  if (modalClipTitle && title) modalClipTitle.textContent = title;
+  if (modalClipGame && game) modalClipGame.textContent = game;
+  if (modalVideo) {
+    if (videoSrc && !modalVideo.src.includes(videoSrc.replace('./', ''))) {
+      modalVideo.src = videoSrc;
+    }
+    modalVideo.currentTime = 0;
+  }
+  previewModal.classList.add('active');
+  previewModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined') lenis.stop();
+
+  if (modalVideo) {
+    modalVideo.play().catch(() => {});
+  }
+}
+
+function closeClipModal() {
+  if (!previewModal) return;
+  previewModal.classList.remove('active');
+  previewModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (typeof lenis !== 'undefined') lenis.start();
+
+  if (modalVideo) {
+    modalVideo.pause();
+  }
+}
+
+// 3. Attach Click Listeners ke Tombol Play & Tombol Action Preview
+const playButtons = document.querySelectorAll('.clip-play-btn, .clip-preview-action-btn');
+playButtons.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const video = btn.getAttribute('data-clip-video') || './assets/images/banner_wardone_smooth.mp4';
+    const title = btn.getAttribute('data-clip-title') || 'Cuplikan Mabar WARDONE';
+    const game = btn.getAttribute('data-clip-game') || 'WARDONE Basecamp';
+    openClipModal(video, title, game);
+  });
+});
+
+if (modalCloseBtn) {
+  modalCloseBtn.addEventListener('click', closeClipModal);
+}
+
+if (modalBackdrop) {
+  modalBackdrop.addEventListener('click', closeClipModal);
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && previewModal && previewModal.classList.contains('active')) {
+    closeClipModal();
+  }
+});
+
+// ═════════════════════════════════════════════════════════════════
 // 3. AUTO WIDGET LIVE DISCORD STATS
 // ═════════════════════════════════════════════════════════════════
 async function updateLiveDiscordStats() {
