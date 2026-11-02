@@ -2206,7 +2206,7 @@ html.lenis, html.lenis body {
   width: 100%;
   height: 0;
   pointer-events: none;
-  z-index: 50;
+  z-index: 2;
   overflow: visible;
 }
 
@@ -2215,7 +2215,7 @@ html.lenis, html.lenis body {
   top: 0;
   left: 0;
   width: 100%;
-  height: clamp(120px, 14vw, 170px);
+  height: clamp(60px, 7vw, 90px);
   transform: translateY(-50%);
   pointer-events: none;
   overflow: visible;
@@ -2225,43 +2225,21 @@ html.lenis, html.lenis body {
 .surface-mist-blanket {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 75% 85% at 50% 50%, rgba(255, 255, 255, 0.98) 0%, rgba(240, 248, 255, 0.88) 40%, rgba(220, 231, 238, 0.4) 75%, transparent 100%);
-  filter: blur(22px);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  opacity: 0.96;
+  background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(255, 255, 255, 0.65) 0%, rgba(240, 248, 255, 0.35) 50%, transparent 100%);
+  filter: blur(16px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0.75;
 }
 
-/* 2. Moving Surface Fog Texture (Kabut bergerak aktif di permukaan) */
+/* 2. Moving Surface Fog Texture (Kabut halus di permukaan) */
 .surface-fog-flow {
-  position: absolute;
-  top: 50%;
-  left: -20%;
-  width: 140%;
-  height: clamp(52px, 6vw, 78px);
-  transform: translateY(-50%);
-  background: radial-gradient(ellipse at 25% 50%, rgba(255, 255, 255, 0.95) 0%, transparent 40%),
-              radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.98) 0%, transparent 45%),
-              radial-gradient(ellipse at 75% 50%, rgba(255, 255, 255, 0.95) 0%, transparent 40%);
-  filter: blur(14px);
-  animation: surface-fog-drift 12s ease-in-out infinite alternate;
+  display: none;
 }
 
-@keyframes surface-fog-drift {
-  0% { transform: translateY(-50%) translateX(0) scaleY(1); }
-  50% { transform: translateY(-50%) translateX(-40px) scaleY(1.15); }
-  100% { transform: translateY(-50%) translateX(35px) scaleY(0.92); }
-}
-
-/* 3. Wavy SVG Layers (Ombak kabut mengobak di permukaan) */
+/* 3. Wavy SVG Layers (Dihapus agar tidak memotong layar secara kasar) */
 .surface-wave-svg {
-  position: absolute;
-  bottom: 0;
-  left: -15%;
-  width: 130%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
+  display: none;
 }
 
 .surface-wave-svg.wave-layer-back {
@@ -2303,27 +2281,27 @@ html.lenis, html.lenis body {
   100% { transform: translateX(30px) scaleY(0.95); }
 }
 
-/* 4. Feathered Corner Clouds (Mengapung di depan garis permukaan, bebas potongan!) */
+/* 4. Feathered Corner Clouds (Mengapung elegan di sudut sebagai vignette, bebas menghalangi teks) */
 .surface-cloud {
   position: absolute;
-  top: 0;
-  width: clamp(200px, 24vw, 340px);
+  top: -24px;
+  width: clamp(150px, 16vw, 240px);
   height: auto;
-  opacity: 0.96;
+  opacity: 0.82;
   pointer-events: none;
-  filter: drop-shadow(0 8px 22px rgba(15, 23, 42, 0.08)) drop-shadow(0 -4px 16px rgba(255, 255, 255, 0.95));
+  filter: drop-shadow(0 6px 16px rgba(15, 23, 42, 0.05)) drop-shadow(0 -2px 10px rgba(255, 255, 255, 0.9));
   transform: translateY(-50%);
-  z-index: 55;
+  z-index: 2;
   animation: surface-cloud-drift 8s ease-in-out infinite alternate;
 }
 
 .surface-cloud-left {
-  left: -2vw;
+  left: -5vw;
   animation-delay: 0s;
 }
 
 .surface-cloud-right {
-  right: -2vw;
+  right: -5vw;
   animation-delay: 3s;
 }
 
@@ -2334,6 +2312,8 @@ html.lenis, html.lenis body {
 }
 
 .section-container {
+  position: relative;
+  z-index: 10;
   width: 100%;
   max-width: min(94vw, 1560px);
   margin: 0 auto;
@@ -2399,7 +2379,7 @@ html.lenis, html.lenis body {
 .segment-vibe {
   position: relative;
   border-top: none;
-  padding: clamp(72px, 10vh, 130px) 0;
+  padding: clamp(90px, 12vh, 150px) 0 clamp(72px, 10vh, 130px);
   overflow: visible;
 }
 
